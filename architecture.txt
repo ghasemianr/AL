@@ -1,0 +1,16 @@
+Albrooks/
+├── main.py
+├── config.py
+├── leg_analysis_standalone.py   ← فایل جدید (همین کد)
+├── analysis/
+│   ├── __init__.py
+│   ├── support_resistance.py
+│   ├── channels_and_trendlines.py
+│   ├── leg_detector.py
+│   └── leg_strength.py
+├── chart/
+│   ├── __init__.py
+│   └── chart_drawer.py
+└── preprocessing/
+    ├── __init__.py
+    └── candle_classifier.py
