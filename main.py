@@ -2,6 +2,7 @@
 import pandas as pd
 import os
 import numpy as np
+import re   # اضافه شده برای استخراج تیکر و تایم فریم
 from config import BREAK_FACTOR, MERGE_FACTOR, TOUCH_TOLERANCE, TOUCH_REQUIREMENT
 from preprocessing.candle_classifier import enrich_candles
 from analysis.support_resistance import (
@@ -19,8 +20,6 @@ from analysis.breakouts import detect_breakouts, detect_breakout_phases   # اض
 from setup.ema_setup import detect_ema_signals
 
 
-
-
 def prepare_data(csv_path):
     df = pd.read_csv(csv_path)
     if 'time' in df.columns:
@@ -31,7 +30,7 @@ def prepare_data(csv_path):
 
 
 if __name__ == "__main__":
-    raw_csv = "BTCUSD_4h.csv"
+    raw_csv = "BTCUSD_5m.csv"
     if not os.path.exists(raw_csv):
         print(f"File {raw_csv} not found.")
     else:
@@ -122,6 +121,17 @@ if __name__ == "__main__":
         else:
             ema_signals = []
             ema_values = None
+
+        # ===== استخراج تیکر و تایم فریم از نام فایل =====
+        filename = os.path.basename(raw_csv)   # مثلاً "GC=F_5m.csv"
+        # الگو: هر چیزی قبل از اولین زیرخط به عنوان تیکر، و بین زیرخط تا .csv به عنوان تایم فریم
+        match = re.match(r'([^_]+)_(.+?)\.csv', filename)
+        if match:
+            ticker = match.group(1)
+            timeframe = match.group(2)
+        else:
+            ticker = "Unknown"
+            timeframe = "Unknown"
     
         # Plot
         plot_chart(
@@ -139,6 +149,7 @@ if __name__ == "__main__":
             breakout_phases=breakout_phases,
             probable_zones=probable_range_zones,
             ema_values=ema_values,          # اضافه شده
-            ema_signals=ema_signals 
+            ema_signals=ema_signals,
+            ticker=ticker,                  # اضافه شده
+            timeframe=timeframe             # اضافه شده
         )
-
