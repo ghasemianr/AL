@@ -21,7 +21,7 @@ from analysis.leg_strength import (
     _c4_big_bodies_score,
     _c5_consecutive_opposite_score,
     _c6_avg_body_ratio_score,
-    _c7_shadow_score,
+    _c7_length_bonus_score,      # <--- جایگزین _c7_shadow_score
     _c8_gap_score,
     _c9_increasing_bodies_score,
     _c10_god_candles_score
@@ -73,7 +73,7 @@ def compute_detailed_strength(df, leg_labels, micro_channels):
         sc['3_close_pos'] = c3_raw if sc['4_big_bodies'] > 0 else 0
         sc['5_opp_seq'] = _c5_consecutive_opposite_score(leg_df, label, leg_height)
         sc['6_body_ratio'] = _c6_avg_body_ratio_score(leg_df, label)
-        sc['7_shadows'] = _c7_shadow_score(leg_df, label)
+        sc['7_length_bonus'] = _c7_length_bonus_score(leg_df)
         sc['8_gaps'] = _c8_gap_score(leg_df, label, leg_height, pre_candle, post_candle)
         sc['9_inc_bodies'] = _c9_increasing_bodies_score(leg_df, label, pre_candle, avg_body_100)
         sc['10_god_candles'] = _c10_god_candles_score(leg_df, label, avg_body_100)
